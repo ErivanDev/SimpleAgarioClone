@@ -28,12 +28,6 @@ io.sockets.on('connection', function (socket) {
     io.sockets.emit('ids', back);
   
     socket.on('user', function(data) {
-        // Data comes in as whatever was sent, including objects
-        //console.log("Received: 'mouse' " + data.x + " " + data.y);
-        //console.log(users); 
-        // Send it to all other clients
-        //socket.broadcast.emit('mouse', data);
-        //for(var i=0; i<users.length; i++) if(users[i].id == socket.id){ users[i].x = data.x ; users[i].y = data.y }
         users[socket.id].x = data.x;
         users[socket.id].y = data.y;
 
@@ -46,8 +40,6 @@ io.sockets.on('connection', function (socket) {
 
         var back = [ socket.id , users[socket.id] , comidas];
 
-        //console.log(users);
-        // This is a way to send to everyone including sender
         io.sockets.emit('users', back);
 
       }
@@ -56,8 +48,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('disconnect', function() {
       delete users[socket.id];
       ids.splice( ids.indexOf(socket.id) , 1);
-
-      //console.log(users);
 
       var back = [ ids , users ];
       io.sockets.emit('ids', back);
